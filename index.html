@@ -18,7 +18,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width">
 
-  <title>Your Project</title>
+  <title>piiq Client Records API</title>
 
   <!-- Flatdoc -->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -29,6 +29,7 @@
   <link  href='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/theme-white/style.css' rel='stylesheet'>
   <script src='https://cdn.rawgit.com/rstacruz/flatdoc/v0.9.0/theme-white/script.js'></script>
 
+  
   <!-- Meta -->
   <meta content="Your Project" property="og:title">
   <meta content="Your Project description goes here." name="description">
@@ -44,23 +45,58 @@
 
   <div class='header'>
     <div class='left'>
-      <h1>Your Project</h1>
-      <ul>
+      <h1>piiq Client Records API</h1>
+      <!-- <ul>
         <li><a href='https://github.com/USER/REPO'>View on GitHub</a></li>
         <li><a href='https://github.com/USER/REPO/issues'>Issues</a></li>
-      </ul>
-    </div>
-    <div class='right'>
-      <!-- GitHub buttons: see http://ghbtns.com -->
-      <iframe src="http://ghbtns.com/github-btn.html?user=USER&amp;repo=REPO&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+      </ul> -->
     </div>
   </div>
 
   <div class='content-root'>
     <div class='menubar'>
-      <div class='menu section' role='flatdoc-menu'></div>
+      <div class='menu section' role='flatdoc-menu'>
+          <a href="#overview">Overview</a>
+          <a href="#authentication">Authentication</a>
+          <a href="#docs">Docs</a>
+          <a href="#support">Support</a>
+      </div>
     </div>
-    <div role='flatdoc-content' class='content'></div>
+    <div role='flatdoc-content' class='content'>
+            <h1>Overview</h1>
+            <p>This documentation covers access to the piiq Client Records API.</p>
+            <p>It is intended for third-party POS or CRM software providers with the purpose of enabling them to embed piiq client records into their software, so that salons need to only access a single interface.</p>
+            <p>The suggested integration flow for the Client Records API is as follows:</p>
+            <ol>
+              <li>When a client goes to pay for their appointment at reception, a request is made to the /mostRecentAppointment endpoint with the client's email</li>
+              <li>The /mostRecentAppointment endpoint returns a unique Appointment ID the corresponds to the most recent appointment for the given email address, which can be stored against the supplier-side appointment record</li>
+              <li>The Appointment ID can then either be used to:
+                <ol>
+                  <li>Access a web interface containing client records, for example at <a href="http://www.piiq-node-api.herokuapp.com/appointments/b5142c23-2ce0-47b1-8091-bb9f2ecee4c7">http://www.piiq-node-api.herokuapp.com/appointments/b5142c23-2ce0-47b1-8091-bb9f2ecee4c7</a> (where b5142...4c7 is the Appointment ID)</li>
+                  <li>Or to send a post request to the /appointments/[id] endpoint to retrieve the same data to embed as needed</li>
+                </ol>
+              </li>
+            </ol>
+          <h1>Authentication</h1>
+          <p>The piiq Client Records API is authenticated via a <code>Bearer</code> Token provided with the <code>Authorization</code> header. For example:</p>
+          <p><code>Authorization: Bearer 123456789</code></p>
+          <p>If you have not already been issued with a Token, please contact <a href="mailto:woods@piiqdigital.com">woods@piiqdigital.com</a></p>          
+        <h1>Documentation</h1>
+        <h2>Get most recent appointment</h2>
+        <p></p>
+        <h3>Parameters</h3>
+        <p><strong>email (REQUIRED)</strong> 
+          <br>User's email (must be the same email used by the user to log into their piiq app)</p>
+        <pre>
+          <p>curl -H "Authorization: Bearer {token}" https://piiq-node-api.herokuapp.com/mostRecentAppointment -d email=user@email.com</p>
+          <p></p>
+        </pre>
+        <h3>Get appointment</h3>
+        <p></p>
+        <pre>
+          <p>curl -H "Authorization: Bearer {token}" https://piiq-node-api.herokuapp.com/appointment/{id}</p>
+        </pre>
+    </div>
   </div>
 
 </body>
